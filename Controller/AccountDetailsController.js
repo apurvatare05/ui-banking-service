@@ -13,6 +13,19 @@ async function getAccountDetails() {
     }
 
 }
+
+async function getAccountTypeDetails() {
+
+    try {
+        let pool = await sql.connect(config);
+        let accountDetails = await pool.request().query("SELECT * from AccountTypeDetails");
+        return accountDetails.recordsets;
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+}
 async function addAccount(accountDetails) {
 
     try {
@@ -27,7 +40,7 @@ async function addAccount(accountDetails) {
             .input('LastName', sql.NVarChar(40), accountDetails.accountDetails.LastName)
             .input('PhoneNumber', sql.Numeric, accountDetails.accountDetails.PhoneNumber)
             .input('TransactionReason', sql.VarChar(50), accountDetails.accountDetails.TransactionReason)
-            .input('AccountType', sql.VarChar(50), accountDetails.accountDetails.AccountType)
+            .input('AccountTypeID', sql.VarChar(50), accountDetails.accountDetails.AccountTypeID)
             .input('AccountBalance', sql.Int, accountDetails.accountDetails.AccountBalance)
             .input('TransactionAmount', sql.Int, accountDetails.accountDetails.TransactionAmount)
             .output('responseMessage',sql.VarChar(250), outputMessage)
@@ -53,6 +66,7 @@ async function addAccount(accountDetails) {
 
 module.exports = {
     getAccountDetails: getAccountDetails,
-    addAccount: addAccount
+    addAccount: addAccount,
+    getAccountTypeDetails: getAccountTypeDetails
     
 }

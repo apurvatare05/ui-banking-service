@@ -31,6 +31,16 @@ router.route('/AccountDetails').get((request, response) => {
 
 });
 
+router.route('/AccountTypeDetails').get((request, response) => {
+
+    dbOperations.getAccountTypeDetails()
+        .then(result => {
+            response.json(result[0]);
+            console.log(result[0])
+        })
+
+});
+
 router.route('/AccountDetails').post((request, response) => {
     console.log('inside post call');
     let accountDetails = { ...request.body };
