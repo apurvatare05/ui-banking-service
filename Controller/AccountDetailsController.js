@@ -29,20 +29,21 @@ async function addAccount(accountDetails) {
             .input('TransactionReason', sql.VarChar(50), accountDetails.accountDetails.TransactionReason)
             .input('AccountType', sql.VarChar(50), accountDetails.accountDetails.AccountType)
             .input('AccountBalance', sql.Int, accountDetails.accountDetails.AccountBalance)
+            .input('TransactionAmount', sql.Int, accountDetails.accountDetails.TransactionAmount)
             .output('responseMessage',sql.VarChar(250), outputMessage)
             .execute('AddAccount',(err, result) =>
                 {
                     if(!err){
                         console.log('ResultSet: ', result );
-                        return result.output.responseMessage;
+                        outputMessage = result.output;
+                        console.log('Output- ' ,outputMessage);
                     }
                     else {
                         console.log('Error: ', err );
-                        return err;
                     }
                 }
             );
-        //return outputMessage;
+        return outputMessage;
     }
     catch (err) {
         console.log(err);
